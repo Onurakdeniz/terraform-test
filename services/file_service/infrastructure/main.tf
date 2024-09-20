@@ -85,7 +85,7 @@ resource "aws_lambda_function" "unique" {
   handler          = var.lambda_unique_handler
   runtime          = var.lambda_runtime
   role             = aws_iam_role.lambda_role.arn
-  source_code_hash = filebase64sha256(var.lambda_unique_filename)
+ 
 
   environment {
     variables = merge(var.environment_variables, {
@@ -112,7 +112,7 @@ resource "aws_lambda_function" "all" {
   handler          = var.lambda_all_handler
   runtime          = var.lambda_runtime
   role             = aws_iam_role.lambda_role.arn
-  source_code_hash = filebase64sha256(var.lambda_all_filename)
+ 
 
   environment {
     variables = merge(var.environment_variables, {

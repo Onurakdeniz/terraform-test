@@ -38,7 +38,8 @@ resource "aws_lambda_function" "this" {
   role             = aws_iam_role.this.arn
   handler          = var.handler
   runtime          = var.runtime
-  source_code_hash = filebase64sha256(var.filename)
+  # Comment out the next line if the ZIP file doesn't exist yet
+  # source_code_hash = filebase64sha256(var.filename)
 
   environment {
     variables = var.environment_variables
