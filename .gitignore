@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# IDE files
+.vscode
+.idea
+
+# Terraform
+.terraform
+*.tfstate
+*.tfstate.backup
+*.tfvars

@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
+    "apps/*",
     "services/*",
-    "shared/*"
+    "libs/*"
   ],
   "scripts": {
-    "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint"
   },
   "devDependencies": {
-    "turbo": "^1.10.0"
+    "turbo": "^1.5.5"
   }
 }

@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: Main API
+  version: "1.0"
+  description: API Gateway for managing applications and other microservices.
+
+servers:
+  - url: https://{rest_api_id}.execute-api.{region}.amazonaws.com/{stage}
+    variables:
+      rest_api_id:
+        default: your-api-id
+      region:
+        default: us-east-1
+      stage:
+        default: development
+
+paths:
+  /applications:
+    post:
+      summary: Create a new application
+      tags:
+        - Applications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationInput'
+      responses:
+        '201':
+          description: Application created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+    get:
+      summary: Get all applications
+      tags:
+        - Applications
+      responses:
+        '200':
+          description: A list of applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+
+  /applications/{id}:
+    get:
+      summary: Get a specific application by ID
+      tags:
+        - Applications
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '404':
+          description: Application not found
+    delete:
+      summary: Delete an application by ID
+      tags:
+        - Applications
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Application deleted successfully
+        '404':
+          description: Application not found
+
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "app-12345"
+        name:
+          type: string
+          example: "My Application"
+        description:
+          type: string
+          example: "This is a sample application."
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            environment: "development"
+            owner: "team-a"
+      required:
+        - id
+        - name
+    ApplicationInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "My Application"
+        description:
+          type: string
+          example: "This is a sample application."
+        tags:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            environment: "development"
+            owner: "team-a"
+      required:
+        - name
+        - description
