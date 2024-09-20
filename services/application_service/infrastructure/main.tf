@@ -141,7 +141,7 @@ resource "aws_iam_role_policy_attachment" "lambda_attach" {
 resource "aws_lambda_permission" "api_gateway_unique" {
   statement_id  = "AllowAPIGatewayInvokeUnique"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda_unique.function_name
+  function_name = module.lambda_unique.lambda_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = var.api_gateway_source_arn
 }
@@ -149,13 +149,13 @@ resource "aws_lambda_permission" "api_gateway_unique" {
 resource "aws_lambda_permission" "api_gateway_all" {
   statement_id  = "AllowAPIGatewayInvokeAll"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda_all.function_name
+  function_name = module.lambda_all.lambda_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = var.api_gateway_source_arn
 }
 
 resource "aws_cloudwatch_log_group" "unique" {
-  name              = "/aws/lambda/${module.lambda_unique.function_name}"
+  name              = "/aws/lambda/${module.lambda_unique.lambda_name}"
   retention_in_days = var.log_retention_days
 
   tags = merge(var.tags, {
@@ -165,7 +165,7 @@ resource "aws_cloudwatch_log_group" "unique" {
 }
 
 resource "aws_cloudwatch_log_group" "all" {
-  name              = "/aws/lambda/${module.lambda_all.function_name}"
+  name              = "/aws/lambda/${module.lambda_all.lambda_name}"
   retention_in_days = var.log_retention_days
 
   tags = merge(var.tags, {
@@ -188,7 +188,7 @@ resource "aws_s3_bucket_notification" "unique" {
   bucket = aws_s3_bucket.application.id
 
   lambda_function {
-    lambda_function_arn = module.lambda_unique.arn
+    lambda_function_arn = module.lambda_unique.lambda_arn
     events              = ["s3:ObjectCreated:*"]
     filter_suffix       = ".json"
   }
@@ -200,7 +200,7 @@ resource "aws_s3_bucket_notification" "all" {
   bucket = aws_s3_bucket.application.id
 
   lambda_function {
-    lambda_function_arn = module.lambda_all.arn
+    lambda_function_arn = module.lambda_all.lambda_arn
     events              = ["s3:ObjectRemoved:*"]
     filter_suffix       = ".json"
   }
@@ -242,7 +242,7 @@ resource "aws_cloudwatch_event_rule" "application_events" {
 resource "aws_cloudwatch_event_target" "application_target" {
   rule           = aws_cloudwatch_event_rule.application_events.name
   event_bus_name = var.event_bus_name
-  arn            = module.lambda_unique.arn
+  arn            = module.lambda_unique.lambda_arn
   target_id      = "${local.service_prefix}-unique-target"
 
   # ... (rest of the resource configuration)

@@ -4,7 +4,7 @@ data "aws_bedrock_foundation_model" "example" {
 
 
 resource "aws_bedrock_custom_model" "example" {
-  custom_model_name     = "example-model"
+  custom_model_name     = "titan-text-express-v1"
   job_name              = "example-job-1"
   base_model_identifier = data.aws_bedrock_foundation_model.example.model_arn
   role_arn              = aws_iam_role.example.arn

@@ -1,11 +1,11 @@
 output "unique_lambda_arn" {
   description = "ARN of the unique Application Lambda function"
-  value       = aws_lambda_function.unique.arn
+  value       = module.lambda_unique.lambda_arn
 }
 
 output "all_lambda_arn" {
   description = "ARN of the all Applications Lambda function"
-  value       = aws_lambda_function.all.arn
+  value       = module.lambda_all.lambda_arn
 }
 
 output "dynamodb_table_name" {
