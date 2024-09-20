@@ -1,3 +1,6 @@
+provider "aws" {
+  region = var.region
+}
 module "application_service" {
   source = "../../../services/application_service/infrastructure"
 
